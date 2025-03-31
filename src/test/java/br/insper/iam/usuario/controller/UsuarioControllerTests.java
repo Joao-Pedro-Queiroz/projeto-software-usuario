@@ -44,8 +44,8 @@ public class UsuarioControllerTests {
     @Test
     void test_GetUsuarios() throws Exception {
         List<Usuario> usuarios = Arrays.asList(
-                new Usuario("João", "joao@example.com"),
-                new Usuario("Maria", "maria@example.com")
+                new Usuario("João", "joao@example.com", "ADMIN"),
+                new Usuario("Maria", "maria@example.com", "ADMIN")
         );
 
         ObjectMapper objectMapper = new ObjectMapper();
