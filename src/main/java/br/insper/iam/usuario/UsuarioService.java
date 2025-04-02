@@ -1,5 +1,6 @@
 package br.insper.iam.usuario;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,14 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    public void validateUser(String user, String password) {
+        Usuario usuario = findUsuarioByEmail(user);
+
+        if (!BCrypt.checkpw(password, usuario.getSenha())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     public List<Usuario> getUsuarios() {
         return usuarioRepository.findAll();
     }
@@ -26,6 +35,9 @@ public class UsuarioService {
         if (usuario.getNome() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+        String hash = BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt());
+        usuario.setSenha(hash);
+
         return usuarioRepository.save(usuario);
     }
 
