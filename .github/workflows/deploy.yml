@@ -49,4 +49,4 @@ jobs:
         script: |
           docker stop usuario
           docker rm --force usuario
-          docker run -d -p 8081:8081 -e spring_profiles_active=git -e USER_DB=${{ secrets.USER_DB }} -e PASS_DB=${{ secrets.PASS_DB }} -e PATH_DB=${{ secrets.PATH_DB }} -e NAME_GIT_DB=${{ secrets.NAME_DB }} --name usuario --network=rede jpqv/usuario-ci:${{ github.sha }}
+          docker run -d -p 8081:8081 -e USER_DB=${{ secrets.USER_DB }} -e PASS_DB=${{ secrets.PASS_DB }} -e PATH_DB=${{ secrets.PATH_DB }} -e NAME_GIT_DB=${{ secrets.NAME_DB }} --name usuario --network=rede jpqv/usuario-ci:${{ github.sha }}
