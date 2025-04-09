@@ -20,15 +20,17 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         String path = request.getRequestURI();
-        if (path.equals("/api/login")) {
+        String method = request.getMethod();
+
+        if (path.equals("/api/usuario") && method.equals("POST")) {
+            filterChain.doFilter(request, response);
+        } else if (path.equals("/api/login")) {
             filterChain.doFilter(request, response);
         } else {
             String token = request.getHeader("Authorization");
 
             loginService.validateToken(token);
-
             filterChain.doFilter(request, response);
         }
     }
